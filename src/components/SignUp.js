@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 
@@ -9,7 +9,7 @@ function SignUp() {
   const passwordConfirm = useRef(null);
   const { signup } = useAuth();
   const [error, setError] = useState("");
-  const [laoding, setLaoding] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function submitHandler(e) {
     e.preventDefault();
@@ -19,42 +19,73 @@ function SignUp() {
 
     try {
       setError("");
-      setLaoding(true);
+      setLoading(true);
       signup(email.current.value, password.current.value);
       history.push("/");
     } catch {
       setError("Failed to create an account");
     }
-    setLaoding(false);
+    setLoading(false);
   }
 
   return (
-    <div>
-      {error && <div>{error}</div>}
-      <form onSubmit={submitHandler}>
+    <div className="bg-gray-200 flex flex-col h-screen items-center justify-center">
+      <div className="bg-white border-solid border-2 p-12 h-auto w-96 space-y-8 rounded-lg shadow-2xl">
+        {error && <div>{error}</div>}
+        <form onSubmit={submitHandler} className="space-y-5">
+          <div>
+            <label htmlFor="email">Email</label>
+            <div>
+              <input
+                id="email"
+                type="text"
+                ref={email}
+                placeholder="Enter your email"
+                required
+                className="w-full focus:outline-none border-gray-300 border-solid border-2 h-8 rounded-lg px-3 py-4 focus:border-blue-500"
+              ></input>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <div>
+              <input
+                id="password"
+                type="password"
+                ref={password}
+                placeholder="Enter your password"
+                required
+                className="w-full focus:outline-none border-gray-300 border-solid border-2 h-8 rounded-lg px-3 py-4 focus:border-blue-500"
+              ></input>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="password-confirm">Confirm Password</label>
+            <div>
+              <input
+                id="password-confirm"
+                type="password"
+                ref={passwordConfirm}
+                placeholder="Enter your password again"
+                required
+                className="w-full focus:outline-none border-gray-300 border-solid border-2 h-8 rounded-lg px-3 py-4 focus:border-blue-500"
+              ></input>
+            </div>
+          </div>
+          <button
+            disabled={loading}
+            type="submit"
+            className="bg-blue-600 p-2 text-yellow-50 rounded-md min-w-full"
+          >
+            Sign Up
+          </button>
+        </form>
         <div>
-          <label htmlFor="email">Email</label>
-          <input id="email" type="text" ref={email} required></input>
+          Already have an account?
+          <Link to="/login" className="text-blue-900 underline px-2">
+            Log in
+          </Link>
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" ref={password} required></input>
-        </div>
-        <div>
-          <label htmlFor="password-confirm">Confirm Password</label>
-          <input
-            id="password-confirm"
-            type="password"
-            ref={passwordConfirm}
-            required
-          ></input>
-        </div>
-        <button disabled={laoding} type="submit">
-          Sign Up
-        </button>
-      </form>
-      <div>
-        Already have an account? <Link to="/login">Log in</Link>
       </div>
     </div>
   );
