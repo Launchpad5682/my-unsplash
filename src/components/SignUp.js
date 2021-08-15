@@ -11,7 +11,7 @@ function SignUp() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
     if (password.current.value !== passwordConfirm.current.value) {
       return setError("Password doesn't match");
@@ -20,7 +20,7 @@ function SignUp() {
     try {
       setError("");
       setLoading(true);
-      signup(email.current.value, password.current.value);
+      await signup(email.current.value, password.current.value);
       history.push("/dashboard");
     } catch {
       setError("Failed to create an account");

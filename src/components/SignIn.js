@@ -10,12 +10,13 @@ function SignIn() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
     try {
       setError("");
       setLoading(true);
-      login(email.current.value, password.current.value);
+      // waits until the login credentials are updated
+      await login(email.current.value, password.current.value);
       history.push("/dashboard");
     } catch {}
   }
