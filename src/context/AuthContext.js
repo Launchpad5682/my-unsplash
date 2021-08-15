@@ -19,6 +19,7 @@ export const AuthProvider = (props) => {
   }
 
   function logout() {
+    setCurrentUser(null);
     return auth.signOut();
   }
 
@@ -97,7 +98,10 @@ export const AuthProvider = (props) => {
       setLoading(false);
     });
     // unsubscribe when unmount
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+      setCurrentUser(null);
+    };
     // disabling the rule for the same
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
