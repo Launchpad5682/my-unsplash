@@ -2,13 +2,15 @@ import React, { useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useFireStore } from "../hooks/useFirestore";
 import SearchBox from "./SearchBox";
+import { useHistory } from "react-router-dom";
 
 function Dashboard() {
-  const { loading, currentUser, uploadData, deleteData } = useAuth();
+  const { loading, currentUser, uploadData, deleteData, logout } = useAuth();
   const { docs } = useFireStore("gallery");
   const [modalOverlay, setModalOverlay] = useState(false);
   const nameRef = useRef();
   const urlRef = useRef();
+  const history = useHistory();
 
   function submitHandler(e) {
     e.preventDefault();
@@ -16,20 +18,33 @@ function Dashboard() {
     setModalOverlay(false);
     nameRef.current.value = null;
     urlRef.current.value = null;
-    //realTimeDBListener();
   }
 
   return (
-    <div className="w-full h-screen no-scrollbar">
+    <div className="w-full h-screen no-scrollbar mt-5">
       {loading && JSON.stringify(currentUser.uid)}
-      <div className="flex justify-between px-60">
-        <SearchBox />
-        <button
-          className="bg-blue-600 py-2 text-yellow-50 rounded-md px-4 "
-          onClick={() => setModalOverlay(true)}
-        >
-          + Add
-        </button>
+      <div className="flex justify-between px-10">
+        <div className="flex items-center">
+          <span className="font-mono">My Unsplash</span>
+          <SearchBox />
+        </div>
+        <div>
+          <button
+            className="bg-blue-600 py-2 text-yellow-50 rounded-md px-4 "
+            onClick={() => setModalOverlay(true)}
+          >
+            + Add
+          </button>
+          <button
+            className="bg-red-600 py-2 text-yellow-50 rounded-md px-4"
+            onClick={() => {
+              logout();
+              history.replace("/signout");
+            }}
+          >
+            Sign Out
+          </button>
+        </div>
       </div>
       {modalOverlay && (
         <div className="bg-black bg-opacity-50 fixed inset-0 flex justify-center items-center overscroll-y-none">
