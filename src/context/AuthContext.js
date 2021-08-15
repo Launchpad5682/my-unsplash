@@ -8,7 +8,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = (props) => {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
-  const [images, setImages] = useState([]);
+  //const [images, setImages] = useState([]);
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
@@ -41,6 +41,9 @@ export const AuthProvider = (props) => {
     });
   }
 
+  function deleteData(uid) {
+    return fireDB.collection("gallery").doc(uid).delete();
+  }
   // const readData = useCallback(() => {
   //   return fireDB
   //     .collection("gallery")
@@ -55,23 +58,23 @@ export const AuthProvider = (props) => {
   //     );
   // }, [images]);
 
-  function readData() {
-    return fireDB
-      .collection("gallery")
-      .get()
-      .then((snapshot) => {
-        let updatedImages = [...images];
-        snapshot.forEach((doc) => {
-          //console.log(doc.id.toString(), "=>", doc.data());
-          updatedImages.push({
-            uid: doc.id.toString(),
-            name: doc.data().name,
-            url: doc.data().url,
-          });
-        });
-        setImages(updatedImages);
-      });
-  }
+  // function readData() {
+  //   return fireDB
+  //     .collection("gallery")
+  //     .get()
+  //     .then((snapshot) => {
+  //       let updatedImages = [...images];
+  //       snapshot.forEach((doc) => {
+  //         //console.log(doc.id.toString(), "=>", doc.data());
+  //         updatedImages.push({
+  //           uid: doc.id.toString(),
+  //           name: doc.data().name,
+  //           url: doc.data().url,
+  //         });
+  //       });
+  //       setImages(updatedImages);
+  //     });
+  // }
 
   // async function readData() {
   //   const response = fireDB.collection("gallery");
@@ -88,29 +91,11 @@ export const AuthProvider = (props) => {
   //   });
   // }
 
-  function realTimeDBListener() {
-    console.log("realtime db changed");
-    return fireDB
-      .collection("gallery")
-      .orderBy("name")
-      .onSnapshot((snapshot) => {
-        const changes = snapshot.docChanges();
-        if (changes.type === "added") {
-          console.log(changes);
-        } else {
-          console.log("deprecated");
-        }
-      });
-  }
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
       setLoading(false);
     });
-
-    readData();
-
     // unsubscribe when unmount
     return unsubscribe;
     // disabling the rule for the same
@@ -126,8 +111,7 @@ export const AuthProvider = (props) => {
     updateEmail,
     updatePassword,
     uploadData,
-    images,
-    realTimeDBListener,
+    deleteData,
   };
   return (
     <AuthContext.Provider value={value}>
