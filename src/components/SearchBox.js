@@ -2,7 +2,7 @@ import React from "react";
 
 function SearchBox() {
   return (
-    <form className="flex rounded-lg border-2 border-gray-300 w-min h-8">
+    <form className="flex rounded-lg border-2 border-gray-300 w-min h-8 ml-4">
       <input className="focus:outline-none w-60 px-2 py-2 rounded-lg"></input>
       <svg
         xmlns="http://www.w3.org/2000/svg"
