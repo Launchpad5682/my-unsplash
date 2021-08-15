@@ -21,7 +21,7 @@ function SignUp() {
       setError("");
       setLoading(true);
       signup(email.current.value, password.current.value);
-      history.push("/");
+      history.push("/dashboard");
     } catch {
       setError("Failed to create an account");
     }
@@ -29,8 +29,8 @@ function SignUp() {
   }
 
   return (
-    <div className="bg-gray-200 flex flex-col h-screen items-center justify-center">
-      <div className="bg-white border-solid border-2 p-12 h-auto w-96 space-y-8 rounded-lg shadow-2xl">
+    <div className="flex flex-col h-screen items-center justify-center">
+      <div className="bg-white p-12 h-auto w-96 space-y-8 rounded-lg shadow-2xl">
         {error && <div>{error}</div>}
         <form onSubmit={submitHandler} className="space-y-5">
           <div>
