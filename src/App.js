@@ -14,7 +14,7 @@ import { PrivateRoute } from "./helper/PrivateRoute";
 
 function App() {
   return (
-    <div>
+    <div className="no-scrollbar">
       <Router>
         <Switch>
           <Route path="/signup" component={SignUp} />
