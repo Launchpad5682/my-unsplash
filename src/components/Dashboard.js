@@ -13,7 +13,6 @@ function Dashboard() {
   const nameRef = useRef();
   const urlRef = useRef();
   const history = useHistory();
-  const columnCountBreakPoints = { 350: 2, 768: 3, 1024: 4 };
 
   function submitHandler(e) {
     e.preventDefault();
@@ -26,12 +25,14 @@ function Dashboard() {
   return (
     <div className="w-full flex flex-col dark:bg-black">
       {loading && JSON.stringify(currentUser.uid)}
-      <div className="flex justify-between px-10 pt-5">
-        <div className="flex items-center">
-          <span className="font-mono font-extrabold">My Unsplash</span>
+      <div className="flex xs:flex-col xs:justify-center lg:flex-row md:justify-between xs:px-10 lg:px-24 pt-5">
+        <div className="flex xs:flex-col md:flex-row items-center">
+          <span className="font-mono font-extrabold dark:text-white">
+            My Unsplash
+          </span>
           <SearchBox />
         </div>
-        <div className="flex align-middle">
+        <div className="flex xs:justify-center xs:pt-8 lg:pt-0">
           <ThemeSwitch />
           <button
             className="bg-blue-600 py-2 text-yellow-50 rounded-md px-4 mr-3 w-24"
@@ -98,10 +99,7 @@ function Dashboard() {
           </div>
         </div>
       )}
-      <ResponsiveMasonry
-        columnCountBreakPoints={columnCountBreakPoints}
-        className="pt-12 pl-8"
-      >
+      <ResponsiveMasonry className="pt-12 xs:px-10 lg:px-24">
         <Masonry>
           {docs
             ? docs.map((image) => {
@@ -109,7 +107,7 @@ function Dashboard() {
                 return (
                   <div
                     key={image.uid}
-                    className="sm:w-64 lg:w-96 h-auto rounded-xl mb-10 shadow-2xl dark:bg-white"
+                    className="xs:w-72 lg:w-96 h-auto rounded-xl mb-10 shadow-2xl dark:bg-white"
                   >
                     <img
                       src={image.url}
