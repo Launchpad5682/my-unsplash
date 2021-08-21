@@ -6,6 +6,7 @@ module.exports = {
   darkMode: "class", // or 'media' or 'class'
   theme: {
     screens: {
+      xs: "360px",
       sm: "640px",
       md: "768px",
       lg: "1024px",
@@ -15,7 +16,6 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-
       black: colors.black,
       white: colors.white,
       gray: colors.coolGray,
