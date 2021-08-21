@@ -4,6 +4,7 @@ import { useFireStore } from "../hooks/useFirestore";
 import SearchBox from "./SearchBox";
 import { useHistory } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import ThemeSwitch from "./ThemeSwitch";
 
 function Dashboard() {
   const { loading, currentUser, uploadData, deleteData, logout } = useAuth();
@@ -23,14 +24,15 @@ function Dashboard() {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col">
+    <div className="w-full flex flex-col dark:bg-black">
       {loading && JSON.stringify(currentUser.uid)}
       <div className="flex justify-between px-10 pt-5">
         <div className="flex items-center">
           <span className="font-mono font-extrabold">My Unsplash</span>
           <SearchBox />
         </div>
-        <div>
+        <div className="flex align-middle">
+          <ThemeSwitch />
           <button
             className="bg-blue-600 py-2 text-yellow-50 rounded-md px-4 mr-3 w-24"
             onClick={() => setModalOverlay(true)}
@@ -107,7 +109,7 @@ function Dashboard() {
                 return (
                   <div
                     key={image.uid}
-                    className="sm:w-64 lg:w-96 h-auto rounded-xl mb-10 shadow-2xl"
+                    className="sm:w-64 lg:w-96 h-auto rounded-xl mb-10 shadow-2xl dark:bg-white"
                   >
                     <img
                       src={image.url}

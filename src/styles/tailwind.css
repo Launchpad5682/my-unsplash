@@ -5,19 +5,18 @@
 @layer utilities {
   @variants responsive {
     .masonry {
+      display: column;
       column-count: 3;
-      column-gap: 1.5em;
+      column-gap: 1.8em;
     }
+    .masonry-2 {
+      display: column;
+      column-count: 2;
+      column-gap: 1.5rem;
+    }
+
     .break-inside {
       break-inside: avoid;
-    }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    /* Hide scrollbar for IE, Edge and Firefox */
-    .no-scrollbar {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
     }
   }
 }
