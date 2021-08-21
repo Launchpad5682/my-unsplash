@@ -5,7 +5,7 @@ function ThemeSwitch() {
   const [colorTheme, setTheme] = useTheme();
 
   return (
-    <div>
+    <div className="bg-green-300 dark:bg-green-300 mr-2 rounded-3xl h-full p-2">
       <span
         onClick={() => {
           setTheme(colorTheme);
@@ -30,7 +30,7 @@ function ThemeSwitch() {
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-6 w-6 "
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
