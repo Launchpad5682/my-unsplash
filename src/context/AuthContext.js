@@ -45,6 +45,10 @@ export const AuthProvider = (props) => {
   function deleteData(uid) {
     return fireDB.collection("gallery").doc(uid).delete();
   }
+
+  function updateData(uid, name, url) {
+    fireDB.collection("gallery").doc(uid).update({ name: name, url: url });
+  }
   // const readData = useCallback(() => {
   //   return fireDB
   //     .collection("gallery")
@@ -115,6 +119,7 @@ export const AuthProvider = (props) => {
     updateEmail,
     updatePassword,
     uploadData,
+    updateData,
     deleteData,
   };
   return (
