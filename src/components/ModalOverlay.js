@@ -1,20 +1,44 @@
 import React, { useRef } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useModalOverlay } from "../context/ModalOverlayContext";
+import { useFireStore } from "../hooks/useFirestore";
 
 const ModalOverlay = () => {
-  const { uploadData } = useAuth();
+  const { uploadData, updateData } = useAuth();
+  const { docs } = useFireStore();
   const nameRef = useRef();
   const urlRef = useRef();
-  const { setModalOverlay } = useModalOverlay();
+  const { setModalOverlay, editMode, setEditMode } = useModalOverlay();
 
-  function submitHandler(e) {
+  useEffect(() => {
+    if (editMode) {
+      const image = docs.filter((doc) => doc.uid === editMode.uid)[0];
+
+      if (image !== undefined) {
+        nameRef.current.value = image.name;
+        urlRef.current.value = image.url;
+      }
+    }
+  }, [editMode, docs]);
+
+  const closeModal = () => {
+    if (editMode) setEditMode(null);
+    setModalOverlay(false);
+  };
+
+  const submitHandler = (e) => {
     e.preventDefault();
-    uploadData(nameRef.current.value, urlRef.current.value);
+    if (editMode) {
+      updateData(editMode.uid, nameRef.current.value, urlRef.current.value);
+      setEditMode(null);
+    } else {
+      uploadData(nameRef.current.value, urlRef.current.value);
+    }
     setModalOverlay(false);
     nameRef.current.value = null;
     urlRef.current.value = null;
-  }
+  };
 
   return (
     <div className="bg-black bg-opacity-50 fixed inset-0 flex justify-center items-center overscroll-y-none">
@@ -27,7 +51,7 @@ const ModalOverlay = () => {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            onClick={() => setModalOverlay(false)}
+            onClick={closeModal}
           >
             <path
               strokeLinecap="round"
@@ -58,7 +82,7 @@ const ModalOverlay = () => {
             type="submit"
             className="bg-blue-600 p-2 text-yellow-50 rounded-md min-w-full"
           >
-            Submit
+            {editMode ? "Update" : "Submit"}
           </button>
         </form>
       </div>
